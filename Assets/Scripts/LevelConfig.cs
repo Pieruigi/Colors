@@ -12,17 +12,17 @@ namespace Zom.Pie
             get { if (instance == null) Create(); return instance; }
         }
 
-        public int NumOfRows { get; set; } = 6;
+        public int NumOfRows { get; set; } = 2;
 
-        public int NumOfColumns { get; set; } = 9;
+        public int NumOfColumns { get; set; } = 3;
 
         public int NumOfColors { get; set; } = 4;
 
-        public float LoadFactor { get; set; } = 0.7f;
+        public float LoadFactor { get; set; } = 1f;
 
-        public bool HorizontalSymmetry { get; set; }
+        public bool HorizontalSymmetry { get; set; } = true;
 
-        public bool VerticalSymmetry { get; set; }
+        public bool VerticalSymmetry { get; set; } = true;
 
         static void Create()
         {

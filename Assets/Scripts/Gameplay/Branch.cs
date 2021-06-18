@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,9 @@ namespace Zom.Pie
     public class Branch : MonoBehaviour
     {
         [SerializeField]
-        GameObject connection;
+        GameObject connector;
+
+        float connectionDistance = 0.4f;
 
         int colorId = -1;
         public int ColorId
@@ -28,11 +31,20 @@ namespace Zom.Pie
 
         }
 
+        public void Connect()
+        {
+            float y = connector.transform.localPosition.y + connectionDistance;
+
+            connector.transform.DOLocalMoveY(y, 1f).SetEase(Ease.InOutExpo);
+        }
+
         void SetMaterial(int colorId)
         {
             // Get connection renderer
-            connection.GetComponent<MeshRenderer>().material = GetComponentInParent<Pillar>().GetMaterial(colorId);
+            connector.GetComponent<MeshRenderer>().material = GetComponentInParent<Pillar>().GetMaterial(colorId);
         }
+
+
     }
 
 }
