@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Zom.Pie.UI
 {
@@ -9,6 +10,12 @@ namespace Zom.Pie.UI
         [SerializeField]
         GameObject panel;
 
+        [SerializeField]
+        Button buttonNew;
+
+        [SerializeField]
+        Button buttonBack;
+
         bool open;
 
         bool enablePlayerOnClose = false;
@@ -16,9 +23,13 @@ namespace Zom.Pie.UI
         // Start is called before the first frame update
         void Start()
         {
-            LevelManager.Instance.OnGameCompleted += OpenDelayed;
+            buttonNew.onClick.AddListener(()=> { GameManager.Instance.LoadGameScene(); });
+            buttonBack.onClick.AddListener(() => { GameManager.Instance.LoadMainScene(); });
 
-            panel.SetActive(false);
+            //LevelManager.Instance.OnGameCompleted += OpenDelayed;
+
+            //panel.SetActive(false);
+
         }
 
         // Update is called once per frame

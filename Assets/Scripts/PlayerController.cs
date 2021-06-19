@@ -54,10 +54,15 @@ namespace Zom.Pie
                     // Get the hit pillar 
                     Pillar pillar = hit.transform.GetComponent<Pillar>();
 
-                    // Rotate
-                    busy = true;
-                    float angle = pillar.transform.localEulerAngles.y + 90f;
-                    pillar.transform.DORotate(Vector3.up * angle, 0.25f).SetEase(Ease.OutBounce).OnComplete(() => { busy = false; LevelManager.Instance.CheckCompleted(); });
+                    if (pillar != null)
+                    {
+                        // Rotate
+                        busy = true;
+                        float angle = pillar.transform.localEulerAngles.y + 90f;
+                        pillar.transform.DORotate(Vector3.up * angle, 0.25f).SetEase(Ease.OutBounce).OnComplete(() => { busy = false; LevelManager.Instance.CheckCompleted(); });
+                    }
+
+                    
                 }
             }
             

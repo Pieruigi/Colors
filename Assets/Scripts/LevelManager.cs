@@ -20,14 +20,26 @@ namespace Zom.Pie
         float pillarDistance = 3;
 
         int numOfColumns;
+        public int NumOfColumns
+        {
+            get { return numOfColumns; }
+        }
         int numOfRows;
+        public int NumOfRows
+        {
+            get { return numOfRows; }
+        }
         int numOfColors;
+
+        LevelConfig levelConfig;
+        
 
         private void Awake()
         {
             if (!Instance)
             {
                 Instance = this;
+                levelConfig = new LevelConfig(LevelParams.Instance);
                 CreateLevel();
             }
             else
@@ -121,9 +133,9 @@ namespace Zom.Pie
         void CreateLevel()
         {
             // Set columns and rows
-            numOfColumns = LevelConfig.Instance.NumOfColumns;
-            numOfRows = LevelConfig.Instance.NumOfRows;
-            numOfColors = LevelConfig.Instance.NumOfColors;
+            numOfColumns = levelConfig.NumOfColumns;
+            numOfRows = levelConfig.NumOfRows;
+            numOfColors = levelConfig.NumOfColors;
             pillars = new Pillar[numOfRows * numOfColumns];
 
             // The horizontal starting position
@@ -214,12 +226,12 @@ namespace Zom.Pie
 
             //
             // Remove some pillars depending on the load factor
-            int count = pillars.Length - (int)(pillars.Length * LevelConfig.Instance.LoadFactor);
+            int count = pillars.Length - (int)(pillars.Length * levelConfig.LoadFactor);
 
             // If we need simmetry we must cut the number of pillars to remove
-            if (LevelConfig.Instance.HorizontalSymmetry)
+            if (levelConfig.HorizontalSymmetry)
                 count /= 2;
-            if (LevelConfig.Instance.VerticalSymmetry)
+            if (levelConfig.VerticalSymmetry)
                 count /= 2;
 
             for (int i=0; i<count; i++)
@@ -231,7 +243,7 @@ namespace Zom.Pie
                 RemovePillar(toRemove);
 
                 // If symmetry is on we must remove the corresponding pillar
-                if (LevelConfig.Instance.HorizontalSymmetry || LevelConfig.Instance.VerticalSymmetry)
+                if (levelConfig.HorizontalSymmetry || levelConfig.VerticalSymmetry)
                 {
                     int toRemoveIndex = new List<Pillar>(pillars).IndexOf(toRemove);
                     int toRemoveRow, toRemoveColumn;
@@ -239,7 +251,7 @@ namespace Zom.Pie
 
                     // Horizontal symmetry
                     int otherIndexForVertical = -1;
-                    if (LevelConfig.Instance.HorizontalSymmetry)
+                    if (levelConfig.HorizontalSymmetry)
                     {
                         if (numOfColumns % 2 == 0 || toRemoveColumn != (numOfColumns - 1) / 2)
                         {
@@ -253,14 +265,14 @@ namespace Zom.Pie
                     }
 
                     // Vertical symmetry
-                    if (LevelConfig.Instance.VerticalSymmetry)
+                    if (levelConfig.VerticalSymmetry)
                     {
                         if (numOfRows % 2 == 0 || toRemoveRow != (numOfRows - 1) / 2)
                         {
                             int otherRow = numOfRows - 1 - toRemoveRow;
                             int otherColumn = toRemoveColumn;
                             int otherIndex = MathUtility.MatrixCoordsToArrayIndex(otherRow, otherColumn, numOfColumns);
-                            Debug.Log("OtherIndex:" + otherIndex);
+                            
                             RemovePillar(pillars[otherIndex]);
 
                             // The other in the horizontal step
@@ -272,7 +284,7 @@ namespace Zom.Pie
                                 int otherRow2 = numOfRows - 1 - toRemoveRow2;
                                 int otherColumn2 = toRemoveColumn2;
                                 int otherIndex2 = MathUtility.MatrixCoordsToArrayIndex(otherRow2, otherColumn2, numOfColumns);
-                                Debug.Log("OtherIndex2:" + otherIndex2);
+                                
                                 RemovePillar(pillars[otherIndex2]);
                             }
                         }
