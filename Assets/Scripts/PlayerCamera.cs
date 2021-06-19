@@ -6,9 +6,15 @@ namespace Zom.Pie
 {
     public class PlayerCamera : MonoBehaviour
     {
-        float disp = 3.2f;
-        float defaultY = 32.56f;
+        float disp = 0;
+        float minY = 32f;
+        float maxY = 90;
 
+        private void Awake()
+        {
+            int diff = 24 - 8;
+            disp = (90 - 32) / (float)diff;
+        }
 
         // Start is called before the first frame update
         void Start()
@@ -17,7 +23,7 @@ namespace Zom.Pie
             float d = (rows - 8) * disp;
 
             Vector3 pos = transform.position;
-            pos.y = defaultY + d;
+            pos.y = minY + d;
             transform.position = pos;
         }
 

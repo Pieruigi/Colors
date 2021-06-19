@@ -22,13 +22,13 @@ namespace Zom.Pie
         }
 
 
-        public LevelSizeParam LevelSizeParam { get; set; } = LevelSizeParam.Random;
+        public LevelSizeParam LevelSizeParam { get; private set; } = LevelSizeParam.Random;
 
-        public NumOfColorsParam NumOfColorsParam { get; set; } = NumOfColorsParam.Random;
+        public NumOfColorsParam NumOfColorsParam { get; private set; } = NumOfColorsParam.Random;
 
-        public LoadFactorParam LoadFactorParam { get; set; } = LoadFactorParam.Random;
+        public LoadFactorParam LoadFactorParam { get; private set; } = LoadFactorParam.Random;
 
-        public SymmetryParam SymmetryParam { get; set; } = SymmetryParam.Random;
+        public SymmetryParam SymmetryParam { get; private set; } = SymmetryParam.Random;
 
         string sizeKey = "levelSize";
         string numOfColorsKey = "numOfColors";
@@ -46,6 +46,30 @@ namespace Zom.Pie
                 LoadFactorParam = (LoadFactorParam)PlayerPrefs.GetInt(loadFactorKey);
             if (PlayerPrefs.HasKey(symmetryKey))
                 SymmetryParam = (SymmetryParam)PlayerPrefs.GetInt(symmetryKey);
+        }
+
+        public void SetLevelSizeParam(LevelSizeParam param)
+        {
+            LevelSizeParam = param;
+            PlayerPrefs.SetInt(sizeKey, (int)param);
+        }
+
+        public void SetNumOfColorsParam(NumOfColorsParam param)
+        {
+            NumOfColorsParam = param;
+            PlayerPrefs.SetInt(numOfColorsKey, (int)param);
+        }
+
+        public void SetLoadFactorParam(LoadFactorParam param)
+        {
+            LoadFactorParam = param;
+            PlayerPrefs.SetInt(loadFactorKey, (int)param);
+        }
+
+        public void SetSymmetryParam(SymmetryParam param)
+        {
+            SymmetryParam = param;
+            PlayerPrefs.SetInt(symmetryKey, (int)param);
         }
 
         static void Create()

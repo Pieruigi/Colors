@@ -21,8 +21,9 @@ namespace Zom.Pie
 
         public bool VerticalSymmetry { get; private set; }
 
-        int[] minRowsSteps = new int[] { 8, 12, 18, 24, 32 };
-        int[] minColsSteps = new int[] { 4, 6, 9, 12, 16 };
+        int[] minRowsSteps = new int[] { 8, 12, 16, 20, 24 };
+        
+        //int[] minColsSteps = new int[] { 4, 6, 9, 12, 16 };
 
         int[] colorsSteps = new int[] { 2, 3, 4 };
 
@@ -32,32 +33,25 @@ namespace Zom.Pie
         {
             // Set configuration
             // Set size
-            if(levelParams.LevelSizeParam == LevelSizeParam.Random)
+            float minRatio = 0.5f, maxRatio = 0.75f;
+            float ratio = Random.Range(minRatio, maxRatio);
+            if (levelParams.LevelSizeParam == LevelSizeParam.Random)
             {
-                float maxRatio = (float)minRowsSteps[0] / (float)minColsSteps[1];
-                Debug.Log("MaxRatio:" + maxRatio);
-
                 NumOfRows = Random.Range(minRowsSteps[0], minRowsSteps[minRowsSteps.Length-1] + 1);
-                int a = (int)(NumOfRows / maxRatio);
-                Debug.Log("A:" + a);
-                NumOfColumns = Random.Range(minColsSteps[0], (int)(NumOfRows / maxRatio));
+                //NumOfColumns = (int)((float)NumOfRows * maxRatio);
 
-                //if (NumOfRows / NumOfColumns > maxRatio)
-                //    NumOfColumns = (int)((float)NumOfRows / maxRatio);
-
-              
             }
             else
             {
                 int paramId = (int)levelParams.LevelSizeParam;
                 NumOfRows = Random.Range(minRowsSteps[paramId], minRowsSteps[paramId + 1] + 1);
-                NumOfColumns = Random.Range(minColsSteps[paramId], minColsSteps[paramId + 1] + 1);
             }
+            NumOfColumns = (int)((float)NumOfRows * ratio);
 
             //NumOfRows = 24;
-            //NumOfColumns = 16;
-            
-            
+            //NumOfColumns = (int)((float)NumOfRows * maxRatio);
+
+
 
             // Set colors
             if (levelParams.NumOfColorsParam == NumOfColorsParam.Random)
