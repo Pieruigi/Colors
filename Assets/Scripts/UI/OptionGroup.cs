@@ -13,6 +13,9 @@ namespace Zom.Pie.UI
         OptionType optionType;
 
         [SerializeField]
+        Text textLabel;
+
+        [SerializeField]
         Text textValue;
 
         [SerializeField]
@@ -28,8 +31,10 @@ namespace Zom.Pie.UI
 
         private void Awake()
         {
+            SetLabel();
+
             buttonPrev.onClick.AddListener(Prev);
-            buttonPrev.onClick.AddListener(Next);
+            buttonNext.onClick.AddListener(Next);
         }
 
         // Start is called before the first frame update
@@ -134,6 +139,25 @@ namespace Zom.Pie.UI
 
             // Label
             textValue.text = options[currentId];
+        }
+
+        void SetLabel()
+        {
+            switch (optionType)
+            {
+                case OptionType.LevelSize:
+                    textLabel.text = "Level Size";
+                    break;
+                case OptionType.NumOfColors:
+                    textLabel.text = "Number Of Colors";
+                    break;
+                case OptionType.LoadFactor:
+                    textLabel.text = "Load Factor";
+                    break;
+                case OptionType.Symmetry:
+                    textLabel.text = "Symmetry";
+                    break;
+            }
         }
     }
 

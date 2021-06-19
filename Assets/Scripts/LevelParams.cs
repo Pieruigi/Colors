@@ -38,6 +38,7 @@ namespace Zom.Pie
         private LevelParams()
         {
             // Load from player prefs
+            Debug.Log("sizeParam:"+ PlayerPrefs.GetInt(sizeKey));
             if (PlayerPrefs.HasKey(sizeKey))
                 LevelSizeParam = (LevelSizeParam)PlayerPrefs.GetInt(sizeKey);
             if (PlayerPrefs.HasKey(numOfColorsKey))

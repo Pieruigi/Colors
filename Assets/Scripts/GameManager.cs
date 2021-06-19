@@ -17,6 +17,7 @@ namespace Zom.Pie
             if (!Instance)
             {
                 Instance = this;
+                Application.targetFrameRate = 60;
                 DontDestroyOnLoad(gameObject);
             }
             else

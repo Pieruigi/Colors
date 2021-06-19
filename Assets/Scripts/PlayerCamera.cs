@@ -6,31 +6,67 @@ namespace Zom.Pie
 {
     public class PlayerCamera : MonoBehaviour
     {
-        float disp = 0;
-        float minY = 32f;
-        float maxY = 90;
+        float dispY = 0;
+        float minY = 22f;
+        float maxY = 80;
+
+        float minZ = -.8f;
+        float maxZ = -3.2f;
+        float dispZ = 0;
+
+        Collider n, e, w;
+        Plane[] planes;
+        bool adjust  = true;
 
         private void Awake()
         {
-            int diff = 24 - 8;
-            disp = (90 - 32) / (float)diff;
+            int diff = LevelConfig.RowStepDisp * LevelConfig.RowStepCount;
+            dispY = (maxY - minY) / (float)diff;
+            dispZ = (maxZ - minZ) / diff;
+
+            
         }
 
         // Start is called before the first frame update
         void Start()
         {
             int rows = LevelManager.Instance.NumOfRows;
-            float d = (rows - 8) * disp;
+            float d = (rows - LevelConfig.MinNumOfRows);
 
             Vector3 pos = transform.position;
-            pos.y = minY + d;
+            pos.y = minY + d * dispY;
+            pos.z = minZ + d * dispZ;
+            pos.y = 0;
             transform.position = pos;
+
+            
+            n = LevelManager.Instance.NorthBoundary;
+            e = LevelManager.Instance.EastBoundary;
+            w = LevelManager.Instance.WestBoundary;
+
+            
         }
 
         // Update is called once per frame
         void Update()
         {
+            if (!adjust)
+                return;
 
+            planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
+            bool v = GeometryUtility.TestPlanesAABB(planes, n.bounds) &&
+                     GeometryUtility.TestPlanesAABB(planes, e.bounds) &&
+                     GeometryUtility.TestPlanesAABB(planes, w.bounds);
+            
+            if (!v)
+            {
+                transform.position += Vector3.up * 2;
+            }
+            else
+            {
+                adjust = false;
+                transform.position += Vector3.up * 10;
+            }
         }
     }
 

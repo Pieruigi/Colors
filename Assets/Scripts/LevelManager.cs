@@ -32,7 +32,22 @@ namespace Zom.Pie
         int numOfColors;
 
         LevelConfig levelConfig;
-        
+
+        // Top, right and left
+        [SerializeField]
+        Collider[] boundaries = new Collider[3];
+        public Collider NorthBoundary
+        {
+            get { return boundaries[0]; }
+        }
+        public Collider EastBoundary
+        {
+            get { return boundaries[1]; }
+        }
+        public Collider WestBoundary
+        {
+            get { return boundaries[2]; }
+        }
 
         private void Awake()
         {
@@ -258,7 +273,7 @@ namespace Zom.Pie
                             int otherColumn = numOfColumns - 1 - toRemoveColumn;
                             int otherRow = toRemoveRow;
                             int otherIndex = MathUtility.MatrixCoordsToArrayIndex(otherRow, otherColumn, numOfColumns);
-                            Debug.Log("OtherIndex:" + otherIndex);
+                           
                             otherIndexForVertical = otherIndex;
                             RemovePillar(pillars[otherIndex]);
                         }
@@ -310,8 +325,67 @@ namespace Zom.Pie
                 }
                     
             }
-            
-            
+
+            SetBoundaries();
+        }
+
+        void SetBoundaries()
+        {
+            int left = -1;
+            int top = -1;
+            int right = -1;
+            // We checke the boundaries we found until now; for example if we found the 
+            // boundary to the left has col = 0 we don't need to check anymore for that boundary.
+            for(int i=0; i<pillars.Length; i++)
+            {
+                int col, row;
+
+                MathUtility.ArrayIndexToMatrixCoords(i, numOfColumns, out row, out col);
+
+                Debug.Log("Check pillar " + i);
+                // Check left
+                if(left != 0)
+                {
+                    if (left < 0 || col < left)
+                    {
+                        if (pillars[i])
+                        {
+                            left = col;
+                            boundaries[2] = pillars[i].Boundary;
+                        }                        
+                        
+                    }
+                        
+                }
+                // Check top
+                if (top != 0)
+                {
+                    if (top < 0 || row < top)
+                    {
+                        if (pillars[i])
+                        {
+                            top = row;
+                            boundaries[0] = pillars[i].Boundary;
+                        }
+                            
+                    }
+                        
+                }
+                // Check right
+                if (right != numOfColumns-1)
+                {
+                    if (right < 0 || col > right)
+                    {
+                        if (pillars[i])
+                        {
+                            right = col;
+                            boundaries[1] = pillars[i].Boundary;
+                        }
+                            
+                    }
+                        
+                }
+            }
         }
 
         void RemovePillar(Pillar toRemove)

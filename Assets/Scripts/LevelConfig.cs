@@ -8,7 +8,11 @@ namespace Zom.Pie
 
     public class LevelConfig
     {
-    
+        public static readonly int MinNumOfRows = 6;
+        public static readonly int RowStepDisp = 4;
+        public static readonly int RowStepCount = 4;
+
+
         public int NumOfRows { get; private set; }
 
         public int NumOfColumns { get; private set; }
@@ -21,7 +25,7 @@ namespace Zom.Pie
 
         public bool VerticalSymmetry { get; private set; }
 
-        int[] minRowsSteps = new int[] { 8, 12, 16, 20, 24 };
+        int[] minRowsSteps = new int[] { MinNumOfRows, MinNumOfRows + RowStepDisp, MinNumOfRows + RowStepDisp*2, MinNumOfRows + RowStepDisp * 3, MinNumOfRows + RowStepDisp * 4 };
         
         //int[] minColsSteps = new int[] { 4, 6, 9, 12, 16 };
 
@@ -33,7 +37,7 @@ namespace Zom.Pie
         {
             // Set configuration
             // Set size
-            float minRatio = 0.5f, maxRatio = 0.75f;
+            float minRatio = 0.5f, maxRatio = 0.7f;
             float ratio = Random.Range(minRatio, maxRatio);
             if (levelParams.LevelSizeParam == LevelSizeParam.Random)
             {
@@ -44,13 +48,16 @@ namespace Zom.Pie
             else
             {
                 int paramId = (int)levelParams.LevelSizeParam;
-                NumOfRows = Random.Range(minRowsSteps[paramId], minRowsSteps[paramId + 1] + 1);
+                NumOfRows = Random.Range(minRowsSteps[paramId], minRowsSteps[paramId + 1]);
             }
+#if UNITY_EDITOR
+            //int mul = 4;
+            //NumOfRows = MinNumOfRows + mul * RowStepDisp;// Test
+            //ratio = minRatio;
+#endif
             NumOfColumns = (int)((float)NumOfRows * ratio);
 
-            //NumOfRows = 24;
-            //NumOfColumns = (int)((float)NumOfRows * maxRatio);
-
+            
 
 
             // Set colors

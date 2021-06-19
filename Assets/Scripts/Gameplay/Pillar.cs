@@ -11,7 +11,13 @@ namespace Zom.Pie
 
         [SerializeField]
         Material[] materials = new Material[4];
-        
+
+        [SerializeField]
+        Collider boundary;
+        public Collider Boundary
+        {
+            get { return boundary; }
+        }
 
         private void Awake()
         {
