@@ -19,8 +19,13 @@ namespace Zom.Pie
             get { return boundary; }
         }
 
+        AudioSource audioSource;
+
         private void Awake()
         {
+            // Get the audio source
+            audioSource = GetComponent<AudioSource>();
+
             foreach (Branch branch in branches)
                 branch.gameObject.SetActive(false);
         }
@@ -69,6 +74,11 @@ namespace Zom.Pie
         public Material GetMaterial(int index)
         {
             return materials[index];
+        }
+
+        public void PlayClip()
+        {
+            audioSource.Play();
         }
 
     }

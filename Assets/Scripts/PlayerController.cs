@@ -60,6 +60,7 @@ namespace Zom.Pie
                         busy = true;
                         float angle = pillar.transform.localEulerAngles.y + 90f;
                         pillar.transform.DORotate(Vector3.up * angle, 0.25f).SetEase(Ease.OutBounce).OnComplete(() => { busy = false; LevelManager.Instance.CheckCompleted(); });
+                        pillar.PlayClip();
                     }
 
                     

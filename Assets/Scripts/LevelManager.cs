@@ -126,6 +126,9 @@ namespace Zom.Pie
             // Move connectors
             Connect();
 
+            // Play audio
+            GetComponent<AudioSource>().Play();
+
             OnGameCompleted?.Invoke();
             
         }

@@ -146,13 +146,13 @@ namespace Zom.Pie.UI
             switch (optionType)
             {
                 case OptionType.LevelSize:
-                    textLabel.text = "Level Size";
+                    textLabel.text = "Size";
                     break;
                 case OptionType.NumOfColors:
-                    textLabel.text = "Number Of Colors";
+                    textLabel.text = "Colors";
                     break;
                 case OptionType.LoadFactor:
-                    textLabel.text = "Load Factor";
+                    textLabel.text = "Coverage";
                     break;
                 case OptionType.Symmetry:
                     textLabel.text = "Symmetry";

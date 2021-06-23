@@ -6,9 +6,9 @@ namespace Zom.Pie
 {
     public class PlayerCamera : MonoBehaviour
     {
-        float dispY = 0;
-        float minY = 22f;
-        float maxY = 80;
+        //float dispY = 0;
+        //float minY = 22f;
+        //float maxY = 80;
 
         float minZ = -.8f;
         float maxZ = -3.2f;
@@ -16,15 +16,18 @@ namespace Zom.Pie
 
         Collider n, e, w;
         Plane[] planes;
+    
         bool adjust  = true;
+        float adjustDisp = 10f;
+        float adjustSpeed = 50f;
 
         private void Awake()
         {
             int diff = LevelConfig.RowStepDisp * LevelConfig.RowStepCount;
-            dispY = (maxY - minY) / (float)diff;
+            //dispY = (maxY - minY) / (float)diff;
             dispZ = (maxZ - minZ) / diff;
 
-            
+
         }
 
         // Start is called before the first frame update
@@ -34,12 +37,11 @@ namespace Zom.Pie
             float d = (rows - LevelConfig.MinNumOfRows);
 
             Vector3 pos = transform.position;
-            pos.y = minY + d * dispY;
+            //pos.y = minY + d * dispY;
             pos.z = minZ + d * dispZ;
-            pos.y = 0;
+            pos.y = 1;
             transform.position = pos;
 
-            
             n = LevelManager.Instance.NorthBoundary;
             e = LevelManager.Instance.EastBoundary;
             w = LevelManager.Instance.WestBoundary;
@@ -57,16 +59,25 @@ namespace Zom.Pie
             bool v = GeometryUtility.TestPlanesAABB(planes, n.bounds) &&
                      GeometryUtility.TestPlanesAABB(planes, e.bounds) &&
                      GeometryUtility.TestPlanesAABB(planes, w.bounds);
-            
+
             if (!v)
             {
-                transform.position += Vector3.up * 2;
+                transform.position += Vector3.up * adjustSpeed * Time.deltaTime;
             }
             else
             {
-                adjust = false;
-                transform.position += Vector3.up * 10;
+                if(adjustDisp > 0)
+                {
+                    float disp = adjustSpeed * Time.deltaTime;
+                    adjustDisp -= disp;
+                    transform.position += Vector3.up * disp;
+
+                    if (adjustDisp < 0)
+                        adjust = false;
+                }
             }
+
+            
         }
     }
 

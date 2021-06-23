@@ -22,13 +22,13 @@ namespace Zom.Pie
         }
 
 
-        public LevelSizeParam LevelSizeParam { get; private set; } = LevelSizeParam.Random;
+        public LevelSizeParam LevelSizeParam { get; private set; } = LevelSizeParam.Medium;
 
-        public NumOfColorsParam NumOfColorsParam { get; private set; } = NumOfColorsParam.Random;
+        public NumOfColorsParam NumOfColorsParam { get; private set; } = NumOfColorsParam.Four;
 
-        public LoadFactorParam LoadFactorParam { get; private set; } = LoadFactorParam.Random;
+        public LoadFactorParam LoadFactorParam { get; private set; } = LoadFactorParam.Low;
 
-        public SymmetryParam SymmetryParam { get; private set; } = SymmetryParam.Random;
+        public SymmetryParam SymmetryParam { get; private set; } = SymmetryParam.Both;
 
         string sizeKey = "levelSize";
         string numOfColorsKey = "numOfColors";
